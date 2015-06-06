@@ -26,58 +26,58 @@ RecBind.RecBind = [[ID] = [Expr]]
 MwIfBranch.MwIfBr = [| [Expr] -> [Expr]]
 CaseBranch.CaseBr = [[Pattern] -> [Expr]]
 
-// context-free syntax
-// 
-// Expr = Literal
-// 
-// Expr = [([Expr])] {bracket}
-// 
-// Expr.RecRem = [{[ID] - [ID]}]
-// Expr.RecAdd = [{[ID] | [RecAdd]}]
-// Expr.RecRen = [{[ID] - [ID] | [RecAdd]}]
-// Expr.RecUpd = [{[ID] | [{RecUpd ", "}+]}]
-// 
-// RecAdd.RecAdd = [[ID] = [Expr]]
-// RecUpd.RecUpd = [[ID] <- [Expr]]
-// 
-// syntax
-// 
-// Expr-CF.RecGet = Expr "." ID
-// Expr.Getter = "." ID
-// 
-// context-free syntax
-// 
-// Expr.If      = [if [Expr]
-//   then [Expr]
-//   else [Expr]]
-// 
-// Expr.MwIf    = [if[{MwIfBranch "\n  "}+]]
-// Expr.Case    = [case [Expr] of
-//   [{CaseBranch "\n  "}+]]
-// 
-// Expr.Lam     = [\[Pattern+] -> [Expr]]
-// Expr.App     = [[Expr] [Expr]] {left}
-// Expr.Let     = [let [{Def "\n"}+]
-// in [Expr]]
-// 
-// Expr.ToBinOp = BinOpExpr
-// 
-// BinOpExpr.ToExpr   = Expr
-// BinOpExpr.BinOpE   = [[Expr] [BinOp] [Expr]] {left}
-// 
-// context-free priorities
-// 
-// BinOpExpr.ToExpr > Expr.ToBinOp,
-// Expr.App > {
-//   left:
-//   BinOp.BinOp
-//   BinOp.InfixFun
-//   BinOp.InfixCons
-// } > {
-//   Expr.If
-//   Expr.MwIf
-//   Expr.Case
-//   Expr.Lam
-//   Expr.Let
-// }
+context-free syntax
+
+Expr = Literal
+
+Expr = [([Expr])] {bracket}
+
+Expr.RecRem = [{[ID] - [ID]}]
+Expr.RecAdd = [{[ID] | [RecAdd]}]
+Expr.RecRen = [{[ID] - [ID] | [RecAdd]}]
+Expr.RecUpd = [{[ID] | [{RecUpd ", "}+]}]
+
+RecAdd.RecAdd = [[ID] = [Expr]]
+RecUpd.RecUpd = [[ID] <- [Expr]]
+
+syntax
+
+Expr-CF.RecGet = Expr "." ID
+Expr.Getter = "." ID
+
+context-free syntax
+
+Expr.If      = [if [Expr]
+  then [Expr]
+  else [Expr]]
+
+Expr.MwIf    = [if[{MwIfBranch "\n  "}+]]
+Expr.Case    = [case [Expr] of
+  [{CaseBranch "\n  "}+]]
+
+Expr.Lam     = [\[Pattern+] -> [Expr]]
+Expr.App     = [[Expr] [Expr]] {left}
+Expr.Let     = [let [{Def "\n"}+]
+in [Expr]]
+
+Expr.ToBinOp = BinOpExpr
+
+BinOpExpr.ToExpr   = Expr
+BinOpExpr.BinOpE   = [[Expr] [BinOp] [Expr]] {left}
+
+context-free priorities
+
+BinOpExpr.ToExpr > Expr.ToBinOp,
+Expr.App > {
+  left:
+  BinOp.BinOp
+  BinOp.InfixFun
+  BinOp.InfixCons
+} > {
+  Expr.If
+  Expr.MwIf
+  Expr.Case
+  Expr.Lam
+  Expr.Let
+}
 
