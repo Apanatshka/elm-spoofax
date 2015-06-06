@@ -1,41 +1,58 @@
 module Elm
 
 imports
-	
+
 Common
+Type
 Def
 
 context-free start-symbols
-  
+
 Start
 
 context-free syntax
-  
-Start.Module = [module [ModuleId][Exports] where
+
+Start.Module = [module [{UPPERID "."}+][Exports] where
+[{Import "\n"}*]
+
 [{TopLevelStatement "\n\n"}*]]
 
 Exports.ExportAll = []
 Exports.Exports = [([{Export ", "}*])]
-  
+
 Export = ID
 Export.ADT     = [[UPPERID]([{ADTExport ", "}*])]
 Export.ADTNone = [[UPPERID]]
 Export.ADTAll  = [[UPPERID](..)]
-  
+
 ADTExport = ID
 ADTExport.All = [..]
 
-TopLevelStatement = Def
-TopLevelStatement.Import = [import [ModuleId][Exposing]]
-TopLevelStatement.Port = [port [TypeDef]
-port [ValueDef]]
+Import.Import = [import [{UPPERID "."}+][ModAlias][Exposing]]
+
+ModAlias.ModAlias = [ as [UPPERID]]
+ModAlias.NoModAlias = []
 
 Exposing.NoExposing = []
 Exposing.Exposing = [ exposing ([{Export ", "}*])]
 
-lexical syntax
+TopLevelStatement.AliasDef = [type alias [UPPERID] [ID*] = [Type]]
+TopLevelStatement.ADTDef = [type [UPPERID] [ID*] = [{ADTDef " | "}+]]
+TopLevelStatement = Def
+TopLevelStatement.Port = [port [TypeDef]
+port [ValueDef]]
 
-ModuleId = {UPPERID "."}+
+ADTDef.ADTCons = [[UPPERID] [Type+]]
+
+syntax
+
+TopLevelStatement-CF.Fixity =
+  "infix" Fixity-CF LAYOUT?-CF INT-CF LAYOUT?-CF BinOp-CF
+
+context-free syntax
+
+Fixity.Left = [l]
+Fixity.Right = [r]
 
 template options
 

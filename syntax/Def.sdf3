@@ -9,9 +9,10 @@ Pattern
 
 context-free syntax
 
-Def.Def = [[TypeDef]
+Def.AnnotatedDef = [[TypeDef]
 [ValueDef]]
 
-TypeDef.TypeDef = [[ID] : [Type]]
+TypeDef.TypeAnno = [[ID] : [Type]]
 
-ValueDef.ValueDef = [[ID] [{Pattern " "}*] = [Expr]]
+ValueDef.UnannotatedDef = [[ID] [Pattern*] = [Expr]]
+Def = ValueDef

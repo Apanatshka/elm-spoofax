@@ -3,12 +3,13 @@ module Pattern
 imports
 
 Common
-Literal
+Expr
 
 context-free syntax
 
 Pattern = [([Pattern])] {bracket}
-Pattern.Var = ID
+Pattern.VarPat = ID
 Pattern.Wld = [_]
 Pattern = Literal
-Pattern.ADT = [[UPPERID] [{Pattern " "}+]]
+Pattern.ADTPat = [[UPPERID] [Pattern*]]
+Pattern.RecPat = [{[Pattern*]}]

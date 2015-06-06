@@ -6,4 +6,11 @@ Common
 
 context-free syntax
 
-Type.Type = 
+Type = [([Type])] {bracket}
+Type.VarType = ID
+Type.Type = [[UPPERID] [Type*]]
+Type.FunType = [[Type] -> [Type]] {right}
+Type.RecType = [{[RecBindT*]}]
+Type.RecExtType = [{ [ID] | [RecBindT*]}]
+
+RecBindT.RecBindT = [[ID] : [Type]]
