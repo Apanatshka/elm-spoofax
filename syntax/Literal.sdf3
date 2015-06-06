@@ -1,0 +1,12 @@
+module Literal
+
+imports
+
+Common
+
+context-free syntax
+
+Literal.Int    = INT
+Literal.Float  = FLOAT
+Literal.String = STRING
+Literal.Char   = CHAR

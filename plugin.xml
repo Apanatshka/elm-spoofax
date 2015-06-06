@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.imp.runtime.languageDescription">
+      <language
+            extensions="elm"
+            description="Elm"
+            language="Elm"
+            derivedFrom="DynamicRoot"
+            validator="elmspoofax.ElmValidator"
+            validatorClass="elmspoofax.ElmValidator"
+      ></language>
+   </extension>
+   <extension
+         id="elmspoofax.parser"
+         name="Elm Parser"
+         point="org.eclipse.imp.runtime.parser">
+      <parser
+            class="elmspoofax.ElmParseController"
+            language="Elm">
+      </parser>
+   </extension>    
+</plugin>

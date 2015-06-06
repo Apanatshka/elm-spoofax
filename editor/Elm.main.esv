@@ -1,0 +1,33 @@
+module Elm.main
+
+imports
+  Elm-Colorer
+  Elm-Completions
+  Elm-Folding
+  Elm-Menus
+  Elm-Refactorings
+  Elm-References
+  Elm-Syntax
+  Elm-Views
+
+language General properties
+  
+  name:          Elm
+  id:            elmspoofax
+  extends:       Root
+  
+  description:   "Spoofax-generated editor for the Elm language"
+  url:           http://strategoxt.org
+  
+  extensions:    elm
+  table:         include/Elm.tbl
+  start symbols: Start
+  
+  provider:      include/elm.ctree
+  provider:      include/elm-java.jar
+  
+  observer:      editor-analyze (multifile)
+  
+  on save:       editor-save
+  
+  jvm opts:      -server -Xss8m -Xmx1024m

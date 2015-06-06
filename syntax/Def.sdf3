@@ -1,0 +1,17 @@
+module Def
+
+imports
+
+Common
+Type
+Expr
+Pattern
+
+context-free syntax
+
+Def.Def = [[TypeDef]
+[ValueDef]]
+
+TypeDef.TypeDef = [[ID] : [Type]]
+
+ValueDef.ValueDef = [[ID] [{Pattern " "}*] = [Expr]]

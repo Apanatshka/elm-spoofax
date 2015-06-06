@@ -1,0 +1,42 @@
+module Elm
+
+imports
+	
+Common
+Def
+
+context-free start-symbols
+  
+Start
+
+context-free syntax
+  
+Start.Module = [module [ModuleId][Exports] where
+[{TopLevelStatement "\n\n"}*]]
+
+Exports.ExportAll = []
+Exports.Exports = [([{Export ", "}*])]
+  
+Export = ID
+Export.ADT     = [[UPPERID]([{ADTExport ", "}*])]
+Export.ADTNone = [[UPPERID]]
+Export.ADTAll  = [[UPPERID](..)]
+  
+ADTExport = ID
+ADTExport.All = [..]
+
+TopLevelStatement = Def
+TopLevelStatement.Import = [import [ModuleId][Exposing]]
+TopLevelStatement.Port = [port [TypeDef]
+port [ValueDef]]
+
+Exposing.NoExposing = []
+Exposing.Exposing = [ exposing ([{Export ", "}*])]
+
+lexical syntax
+
+ModuleId = {UPPERID "."}+
+
+template options
+
+tokenize: "()"

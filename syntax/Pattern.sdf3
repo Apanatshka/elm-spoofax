@@ -1,0 +1,14 @@
+module Pattern
+
+imports
+
+Common
+Literal
+
+context-free syntax
+
+Pattern = [([Pattern])] {bracket}
+Pattern.Var = ID
+Pattern.Wld = [_]
+Pattern = Literal
+Pattern.ADT = [[UPPERID] [{Pattern " "}+]]

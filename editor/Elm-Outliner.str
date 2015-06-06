@@ -1,0 +1,13 @@
+module editor/Elm-Outliner
+
+imports
+  
+  include/Elm
+  lib/runtime/editor/outline-library
+  lib/runtime/editor/origins
+  editor/Elm-Outliner.generated
+
+rules
+  
+  to-outline-label = fail
+  
