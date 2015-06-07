@@ -2,14 +2,26 @@ module Pattern
 
 imports
 
+Lexical
 Common
 Expr
 
 context-free syntax
 
 Pattern = [([Pattern])] {bracket}
-Pattern.VarPat = ID
-Pattern.Wld = [_]
+Pattern.PVar = ID
+Pattern.PADT = [[UPPERID] [Pattern*]]
+Pattern.PWld = [_]
 Pattern = Literal
-Pattern.ADTPat = [[UPPERID] [Pattern*]]
-Pattern.RecPat = [{[Pattern*]}]
+Pattern.PUnit   = [()]
+Pattern.PTuple  = [([Pattern], [{Pattern ", "}+])]
+Pattern.PList   = <[<{Pattern ", "}*>]>
+Pattern.PBinOp  = [[Pattern] [CONSTROP] [Pattern]] {left}
+Pattern.PRec    = [{[Pattern*]}]
+
+context-free priorities
+
+// Explanation of priorities in Type.sdf3
+
+Pattern+ = Pattern >
+Pattern.PBinOp

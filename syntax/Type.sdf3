@@ -2,15 +2,36 @@ module Type
 
 imports
 
-Common
+Lexical
 
 context-free syntax
 
 Type = [([Type])] {bracket}
-Type.VarType = ID
-Type.Type = [[UPPERID] [Type*]]
-Type.FunType = [[Type] -> [Type]] {right}
-Type.RecType = [{[RecBindT*]}]
-Type.RecExtType = [{ [ID] | [RecBindT*]}]
 
-RecBindT.RecBindT = [[ID] : [Type]]
+Type.TVar    = ID
+Type.TADT    = [[UPPERID] [Type*]]
+Type.TFun    = [[Type] -> [Type]] {right}
+// prefer the bracket pattern
+Type.TUnit   = [()]
+Type.TTuple  = [([Type], [{Type ", "}+])]
+Type.TRec    = [{[TRecBind*]}]
+Type.TRecExt = [{ [ID] | [TRecBind*]}]
+
+TRecBind.TRecBind = [[ID] : [Type]]
+
+context-free priorities
+
+/*
+Type* in the Type.ConcreteApp rule will generate the following rules according
+to the SDF2 manual:
+             -> Type*
+ Type+       -> Type*
+ Type        -> Type+
+ Type+ Type+ -> Type+ {left}
+
+Therefore we need to restrict the third rule, which mentions Type directly.
+Oh how I love systems upon systems and looking up legacy documentation. 
+*/
+
+Type+ = Type >
+Type = Type "->" Type

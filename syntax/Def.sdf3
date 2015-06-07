@@ -2,7 +2,7 @@ module Def
 
 imports
 
-Common
+Lexical
 Type
 Expr
 Pattern
@@ -12,7 +12,10 @@ context-free syntax
 Def.AnnotatedDef = [[TypeDef]
 [ValueDef]]
 
-TypeDef.TypeAnno = [[ID] : [Type]]
+TypeDef.NameAnno = [[ID] : [Type]]
+TypeDef.OpAnno   = [([BINOP]) : [Type]]
 
-ValueDef.UnannotatedDef = [[ID] [Pattern*] = [Expr]]
+ValueDef.PrefixOpDef = [([BINOP]) [Pattern*] = [Expr]]
+ValueDef.InfixOpDef  = [[Pattern] [BINOP] [Pattern*] = [Expr]]
+ValueDef.NameDef = [[ID] [Pattern*] = [Expr]]
 Def = ValueDef

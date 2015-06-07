@@ -2,22 +2,19 @@ module Expr
 
 imports
 
+Lexical
 Common
 Pattern
 Def
 
 context-free syntax
 
-Literal.Int    = INT
-Literal.Float  = FLOAT
-Literal.String = STRING
-Literal.Char   = CHAR
-
-// prefer bracket rule
-Expr.Tuple  = [([{Expr ", "}*])] {avoid}
-Expr.List   = <[<{Expr ", "}*>]>
-Expr.Range  = <[<Expr>..<Expr>]>
-Expr.Record = [{[{RecBind ", "}*]}]
+Expr.Unit  = [()]
+Expr.Tuple = [([Expr], [{Expr ", "}+])]
+Expr.List  = <[<{Expr ", "}*>]>
+Expr.Range = <[<Expr>..<Expr>]>
+Expr.Rec   = [{[{RecBind ", "}*]}]
+Expr.ADT   = UPPERID
 
 context-free syntax
 
@@ -31,6 +28,10 @@ context-free syntax
 Expr = Literal
 
 Expr = [([Expr])] {bracket}
+Expr = Ref
+Expr.QualRef = [[{UPPERID "."}+].[ID]]
+
+Expr.PrefixTupleOp = PREFIXTUPLEOP
 
 Expr.RecRem = [{[ID] - [ID]}]
 Expr.RecAdd = [{[ID] | [RecAdd]}]
@@ -60,20 +61,13 @@ Expr.App     = [[Expr] [Expr]] {left}
 Expr.Let     = [let [{Def "\n"}+]
 in [Expr]]
 
-Expr.ToBinOp = BinOpExpr
-
-BinOpExpr.ToExpr   = Expr
-BinOpExpr.BinOpE   = [[Expr] [BinOp] [Expr]] {left}
+Expr.EBinOp   = [[Expr] [BinOp] [Expr]] {left}
 
 context-free priorities
 
-BinOpExpr.ToExpr > Expr.ToBinOp,
-Expr.App > {
-  left:
-  BinOp.BinOp
-  BinOp.InfixFun
-  BinOp.InfixCons
-} > {
+// Expr.ToBinOp > BinOpExpr.ToExpr,
+Expr.App >
+Expr.EBinOp > {
   Expr.If
   Expr.MwIf
   Expr.Case
@@ -81,3 +75,5 @@ Expr.App > {
   Expr.Let
 }
 
+template options
+keyword -/- [A-Za-z0-9\_\']

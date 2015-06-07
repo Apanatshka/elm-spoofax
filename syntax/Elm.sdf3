@@ -2,6 +2,7 @@ module Elm
 
 imports
 
+Lexical
 Common
 Type
 Def
@@ -12,18 +13,24 @@ Start
 
 context-free syntax
 
-Start.Module = [module [{UPPERID "."}+][Exports] where
+Start = Module
+
+Module.Module = [module [{UPPERID "."}+][Exports] where
 [{Import "\n"}*]
+
+[{TopLevelStatement "\n\n"}*]]
+
+Module.Main = [[{Import "\n"}*]
 
 [{TopLevelStatement "\n\n"}*]]
 
 Exports.ExportAll = []
 Exports.Exports = [([{Export ", "}*])]
 
-Export = ID
 Export.ADT     = [[UPPERID]([{ADTExport ", "}*])]
 Export.ADTNone = [[UPPERID]]
 Export.ADTAll  = [[UPPERID](..)]
+Export         = Ref
 
 ADTExport = ID
 ADTExport.All = [..]
@@ -57,3 +64,5 @@ Fixity.Right = [r]
 template options
 
 tokenize: "()"
+keyword -/- [A-Za-z0-9\_\']
+
