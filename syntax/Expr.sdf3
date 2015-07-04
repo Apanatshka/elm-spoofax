@@ -29,7 +29,6 @@ Expr = Literal
 
 Expr = [([Expr])] {bracket}
 Expr = Ref
-Expr.QualRef = [[{UPPERID "."}+].[ID]]
 
 Expr.PrefixTupleOp = PREFIXTUPLEOP
 
@@ -43,8 +42,9 @@ RecUpd.RecUpd = [[ID] <- [Expr]]
 
 syntax
 
-Expr-CF.RecGet = Expr "." ID
-Expr.Getter = "." ID
+Expr-CF.QualRef = UpperIds-CF "." ID-CF
+Expr-CF.RecGet = Expr-CF "." ID-CF
+Expr-CF.Getter = "." ID-CF
 
 context-free syntax
 

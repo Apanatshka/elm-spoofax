@@ -22,5 +22,7 @@ BinOp.BinOp = BINOP
 
 syntax
 
+UpperIds-CF = {UPPERID-CF "."}+
+
 BinOp-CF.InfixFun  = "`" ID-CF "`"
 BinOp-CF.InfixCons = "`" UPPERID-CF "`"

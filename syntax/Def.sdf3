@@ -9,8 +9,8 @@ Pattern
 
 context-free syntax
 
-Def.AnnotatedDef = [[TypeDef]
-[ValueDef]]
+Def.AnnotatedDef = [[TypeDefNEWLINE]
+[ValueDef]] {layout("1.first.col == 2.first.col")}
 
 TypeDef.NameAnno = [[ID] : [Type]]
 TypeDef.OpAnno   = [([BINOP]) : [Type]]
@@ -19,3 +19,7 @@ ValueDef.PrefixOpDef = [([BINOP]) [Pattern*] = [Expr]]
 ValueDef.InfixOpDef  = [[Pattern] [BINOP] [Pattern*] = [Expr]]
 ValueDef.NameDef = [[ID] [Pattern*] = [Expr]]
 Def = ValueDef
+
+syntax
+
+TypeDefNEWLINE-CF = TypeDef-CF LAYOUT?-CF {enforce-newline}

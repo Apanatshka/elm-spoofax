@@ -15,14 +15,14 @@ context-free syntax
 
 Start = Module
 
-Module.Module = [module [{UPPERID "."}+][Exports] where
+Module.Module = [module [UpperIds][Exports] where
 [{Import "\n"}*]
 
-[{TopLevelStatement "\n\n"}*]]
+[TopLevelStatements]]
 
 Module.Main = [[{Import "\n"}*]
 
-[{TopLevelStatement "\n\n"}*]]
+[TopLevelStatements]]
 
 Exports.ExportAll = []
 Exports.Exports = [([{Export ", "}*])]
@@ -35,7 +35,7 @@ Export         = Ref
 ADTExport = ID
 ADTExport.All = [..]
 
-Import.Import = [import [{UPPERID "."}+][ModAlias][Exposing]]
+Import.Import = [import [UpperIds][ModAlias][Exposing]]
 
 ModAlias.ModAlias = [ as [UPPERID]]
 ModAlias.NoModAlias = []
@@ -49,9 +49,14 @@ TopLevelStatement = Def
 TopLevelStatement.Port = [port [TypeDef]
 port [ValueDef]]
 
+TopLevelStatements = TopLevelStatement
+TopLevelStatements.TLStatementSeq = TopLevelStatementNEWLINE TopLevelStatements {layout("1.first.col == 2.first.col")}
+
 ADTDef.ADTCons = [[UPPERID] [Type+]]
 
 syntax
+
+TopLevelStatementNEWLINE-CF = TopLevelStatement-CF LAYOUT?-CF {enforce-newline}
 
 TopLevelStatement-CF.Fixity =
   "infix" Fixity-CF LAYOUT?-CF INT-CF LAYOUT?-CF BinOp-CF
