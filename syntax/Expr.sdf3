@@ -44,7 +44,8 @@ syntax
 
 Expr-CF.QualRef = UpperIds-CF "." ID-CF
 Expr-CF.RecGet = Expr-CF "." ID-CF
-Expr-CF.Getter = "." ID-CF
+Expr-CF.Getter = " ." ID-CF {avoid}
+// avoid application of this, so RecGet gets chosen
 
 context-free syntax
 
@@ -52,16 +53,33 @@ Expr.If      = [if [Expr]
   then [Expr]
   else [Expr]]
 
-Expr.MwIf    = [if[{MwIfBranch "\n  "}+]]
+Expr.MwIf    = [if[MwIfBranches]]
 Expr.Case    = [case [Expr] of
-  [{CaseBranch "\n  "}+]]
+  [CaseBranches]]
 
 Expr.Lam     = [\[Pattern+] -> [Expr]]
 Expr.App     = [[Expr] [Expr]] {left}
-Expr.Let     = [let [{Def "\n"}+]
+Expr.Let     = [let [Defs]
 in [Expr]]
 
 Expr.EBinOp   = [[Expr] [BinOp] [Expr]] {left}
+
+context-free syntax
+
+MwIfBranches = MwIfBranch
+MwIfBranches.MwIfBranchSeq = MwIfBranchNEWLINE MwIfBranches {layout("1.first.col == 2.first.col")}
+
+CaseBranches = CaseBranch
+CaseBranches.CaseBranchSeq = CaseBranchNEWLINE CaseBranches {layout("1.first.col == 2.first.col")}
+
+Defs = Def
+Defs.DefSeq = DefNEWLINE Defs {layout("1.first.col == 2.first.col")}
+
+syntax
+
+MwIfBranchNEWLINE-CF = MwIfBranch-CF LAYOUT?-CF {enforce-newline}
+CaseBranchNEWLINE-CF = CaseBranch-CF LAYOUT?-CF {enforce-newline}
+DefNEWLINE-CF = Def-CF LAYOUT?-CF {enforce-newline}
 
 context-free priorities
 

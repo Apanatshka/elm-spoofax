@@ -9,7 +9,8 @@ FLOAT          = [0-9]* "." [0-9]+
 PREFIXTUPLEOP  = "(" ","+  ")"
 BINOP          = BinOpChar+
 BINOP          = CONSTROP
-BINOP          = "->" | "<-" | "--" {reject}
+BINOP          = "." | "=" | "->" | "<-" | "--" {reject}
+BINOP          = "." LAYOUT
 BinOpChar      = [\~\!\@\#\$\%\^\&\*\-\+\=\<\>\/\?\\\|\.\_]
 CONSTROP       = ":" ConstrOpChar+
 ConstrOpChar   = (BinOpChar | ":")
