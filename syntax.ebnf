@@ -94,8 +94,8 @@ Type (* bracket *) = "(", Type, ")"
      (* TFun    *) | Type, "->", Type (* right associative *)
      (* TUnit   *) | "(", ")"
      (* TTuple  *) | "(", Type, ",", Type, {",", Type}, ")"
-     (* TRecord *) | "{", {TRecBind}, "}"
-     (* TRecExt *) | "{", ID, "|", {TRecBind}, "}"
+     (* TRecord *) | "{", {",", TRecBind}, "}"
+     (* TRecExt *) | "{", ID, "|", {",", TRecBind}, "}"
 
 TRecBind (* TRecBind *) = ID, ":", Type
 
@@ -109,7 +109,7 @@ Pattern (* bracket *) = "(", Pattern, ")"
         (* PTuple  *) | "(", Pattern, ",", Pattern, {",", Pattern}, ")"
         (* PList   *) | "[", [ Pattern, {",", Pattern} ], "]"
         (* PBinOp  *) | Pattern, CONSTROP, Pattern (* left associative *)
-        (* PRecord *) | "{", {Pattern}, "}"
+        (* PRecord *) | "{", {",", Pattern}, "}"
                       | Literal
 
 (* Definitions *)
