@@ -4,24 +4,24 @@ imports
 
 Lexical
 Common
-Expr
 
 context-free syntax
 
 Pattern = [([Pattern])] {bracket}
 Pattern.PVar = ID
-Pattern.PADT = [[UPPERID] [Pattern*]]
+Pattern.PADT = [[UPPERID] [PatternList]] {layout("1.first.col <= 2.first.col")}
 Pattern.PWld = [_]
 Pattern = Literal
 Pattern.PUnit   = [()]
 Pattern.PTuple  = [([Pattern], [{Pattern ", "}+])]
 Pattern.PList   = <[<{Pattern ", "}*>]>
 Pattern.PBinOp  = [[Pattern] [CONSTROP] [Pattern]] {left}
-Pattern.PRec    = [{[Pattern*]}]
+Pattern.PRec    = [{[{Pattern ", "}*]}]
+
+PatternList.PNil  = []
+PatternList.PCons = [[Pattern] [PatternList]] {layout("1.first.col <= 2.first.col")}
 
 context-free priorities
 
-// Explanation of priorities in Type.sdf3
-
-Pattern+ = Pattern >
+PatternList.PCons >
 Pattern.PBinOp

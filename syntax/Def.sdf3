@@ -15,6 +15,7 @@ Def.AnnotatedDef = [[TypeDefNEWLINE]
 TypeDef.NameAnno = [[ID] : [Type]]
 TypeDef.OpAnno   = [([BINOP]) : [Type]]
 
+//ValueDef
 ValueDef.PrefixOpDef = [([BINOP]) [Pattern*] = [Expr]]
 ValueDef.InfixOpDef  = [[Pattern] [BINOP] [Pattern*] = [Expr]]
 ValueDef.NameDef = [[ID] [Pattern*] = [Expr]]

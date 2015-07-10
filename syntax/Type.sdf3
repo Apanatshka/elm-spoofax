@@ -9,29 +9,21 @@ context-free syntax
 Type = [([Type])] {bracket}
 
 Type.TVar    = ID
-Type.TADT    = [[UPPERID] [Type*]]
+Type.TADT    = [[UPPERID] [TypeList]] {layout("1.first.col <= 2.first.col")}
 Type.TFun    = [[Type] -> [Type]] {right}
 // prefer the bracket pattern
 Type.TUnit   = [()]
 Type.TTuple  = [([Type], [{Type ", "}+])]
-Type.TRec    = [{[TRecBind*]}]
-Type.TRecExt = [{ [ID] | [TRecBind*]}]
+Type.TRec    = [{[{TRecBind ", "}*]}]
+Type.TRecExt = [{ [ID] | [{TRecBind ", "}*]}]
 
 TRecBind.TRecBind = [[ID] : [Type]]
 
+TypeList.TNil = []
+TypeList.TCons = [[Type] [TypeList]] {layout("1.first.col <= 2.first.col")}
+
+
 context-free priorities
 
-/*
-Type* in the Type.ConcreteApp rule will generate the following rules according
-to the SDF2 manual:
-             -> Type*
- Type+       -> Type*
- Type        -> Type+
- Type+ Type+ -> Type+ {left}
-
-Therefore we need to restrict the third rule, which mentions Type directly.
-Oh how I love systems upon systems and looking up legacy documentation. 
-*/
-
-Type+ = Type >
-Type = Type "->" Type
+TypeList.TCons >
+Type.TFun

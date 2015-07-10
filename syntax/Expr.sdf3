@@ -43,9 +43,13 @@ RecUpd.RecUpd = [[ID] <- [Expr]]
 syntax
 
 Expr-CF.QualRef = UpperIds-CF "." ID-CF
-Expr-CF.RecGet = Expr-CF "." ID-CF
-Expr-CF.Getter = " ." ID-CF {avoid}
+Expr-CF.RecGet = Expr-CF "." ID-CF {prefer} // prefer over Getter/EBinOp
+Expr-CF.Getter = "." ID-CF
 // avoid application of this, so RecGet gets chosen
+
+priorities
+Expr-CF.RecGet = Expr-CF "." ID-CF {prefer} >
+Expr-CF.ADT = UPPERID-CF
 
 context-free syntax
 
@@ -58,11 +62,12 @@ Expr.Case    = [case [Expr] of
   [CaseBranches]]
 
 Expr.Lam     = [\[Pattern+] -> [Expr]]
-Expr.App     = [[Expr] [Expr]] {left}
+Expr.App     = [[Expr] [Expr]] {left, avoid, layout("1.first.col <= 2.first.col")} // avoid over Getter/RecGet
+
 Expr.Let     = [let [Defs]
 in [Expr]]
 
-Expr.EBinOp   = [[Expr] [BinOp] [Expr]] {left}
+Expr.EBinOp   = [[Expr] [BinOp] [Expr]] {left, avoid} // avoid over Getter/RecGet
 
 context-free syntax
 
